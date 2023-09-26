@@ -4,6 +4,7 @@
  */
 package com.a107.exemplomditdi;
 
+import com.a107.exemplomditdi.utils.Validador;
 import javax.swing.JOptionPane;
 
 /**
@@ -53,11 +54,16 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         jLabel3.setText("Idade:");
 
+        txtNome.setName("Nome"); // NOI18N
+
         try {
             txtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCPF.setName("CPF"); // NOI18N
+
+        txtIdade.setName("Idade"); // NOI18N
 
         btnProximo.setText("Próximo");
         btnProximo.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +118,11 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
         lblLogradouro.setText("Logradouro:");
 
+        txtLogradouro.setName("Logradouro"); // NOI18N
+
         lblNumero.setText("Número:");
+
+        txtNumero.setName("Número"); // NOI18N
 
         btnVoltar.setText("<<Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -198,22 +208,34 @@ public class TelaCadastroCliente extends javax.swing.JFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
 
-        try {
-            int idade = Integer.parseInt(txtIdade.getText());
-        } catch (NumberFormatException erroConversao) {
-            // erro específico
+//        try {
+//            int idade = Integer.parseInt(txtIdade.getText());
+//        } catch (NumberFormatException erroConversao) {
+//            // erro específico
+//            JOptionPane.showMessageDialog(rootPane,
+//                    "erro ao converter a idade!");
+//        } catch (Exception erro) {
+//            // erro genérico
+//            JOptionPane.showMessageDialog(rootPane,
+//                    "Erro genérico! ");
+//        }finally{
+//            txtIdade.setText("");
+//            pnlGuias.setSelectedIndex(0);
+//        }
+//      
+//
+        Validador objValidador = new Validador();
+        objValidador.ValidarNumero(txtNumero);
+        objValidador.ValidarTexto(txtNome);
+        objValidador.ValidarTexto(txtCPF);
+
+        if (objValidador.hasErro()) {
             JOptionPane.showMessageDialog(rootPane,
-                    "erro ao converter a idade!");
-        } catch (Exception erro) {
-            // erro genérico
-            JOptionPane.showMessageDialog(rootPane,
-                    "Erro genérico! ");
-        }finally{
-            txtIdade.setText("");
-            pnlGuias.setSelectedIndex(0);
+                    objValidador.getMensagensErro());
+
+            objValidador.limparMensagens();
+
         }
-
-
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     /**
